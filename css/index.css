@@ -1,0 +1,18 @@
+
+.fleft{
+	float: left;	
+}
+
+.fright{
+	float: right;
+}
+
+.left-bar{
+	width: 70%;
+	border: 0px solid red;
+}
+
+.right-bar{
+	width: 30%;
+	border: 0px solid red;
+}
