@@ -15,4 +15,46 @@
 .right-bar{
 	width: 30%;
 	border: 0px solid red;
+	color: red;
+}
+
+#headPicDiv{
+	border: 1px solid #e8e5e5;	
+	width: 100%;
+	position: relative;
+}
+
+.header{
+	border-bottom:1px solid #c3bdbd;
+	line-height: 42px;
+	margin-bottom: 10px;
+	position: relative;
+}
+.recogHeaderResult{
+	width: 100px;
+	position: absolute;
+	top: 0px;
+	left: 70%;
+	color: red;
+}
+
+.right-content{
+	margin-left: 10px;
+	color: blue;
+}
+
+.t_header{
+	overflow: hidden;
+	border-right:1px solid #c3bdbd;
+}
+
+.t_header > div{
+	float: left;
+	width: 79px;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	border-left:1px solid #c3bdbd;
+	border-top:1px solid #c3bdbd;
+	border-bottom:1px solid #c3bdbd;
 }

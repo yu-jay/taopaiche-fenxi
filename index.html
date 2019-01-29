@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>套配车分析</title>
-<script src="js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="js/jquery.upload.js"></script>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="conf/config.js"></script>
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 </head>
@@ -12,12 +12,69 @@
 
 <div class="container">
 	
+	<div class="header">
+		<span style="margin-left: 100px;" id="ip_div">
+			
+		</span>
+		<input type="button" value="识别" id="recog" style="margin-left: 400px;">
+		<div class="recogHeaderResult">识别结果：</div>
+	</div>
+	
 	<div class="fleft left-bar">
-		<input type="button" id="head_pic_btn" value="请选择图片" />
+		
+		<div id="headPicDiv">
+			
+			<img id="headPic" />
+			
+		</div>
+		
+		
 	</div>
 	
 	<div class="fright right-bar">
-	
+		<div class="right-content">
+			<span class="init" style="display:none">未识别。</span>
+			<span>
+				<div class="t_header">
+					<div>结果1</div>
+					<div>结果2</div>
+					<div>结果3</div>
+					<div>结果4</div>
+				</div>
+				<div class="t_body">
+					<p>
+						　车辆品牌：<input type="text" />
+					</p>
+					<p>
+						　车身颜色：<input type="text" />
+					</p>
+					<p>
+						　　　车型：<input type="text" />
+					</p>
+					<p>
+						　号牌号码：<input type="text" />
+					</p>
+					<p>
+						　号牌颜色：<input type="text" />
+					</p>
+					<p>
+						危化品标志：<input type="text" />
+					</p>
+					<p>
+						　　驾驶员：<input type="text" />
+					</p>
+					<p>
+						　　安全带：<input type="text" />
+					</p>
+					<p>
+						　　打手机：<input type="text" />
+					</p>
+					<p>
+						　　遮阳板：<input type="text" />
+					</p>
+				</div>
+			</span>
+		</div>
 	</div>
 	
 </div>
