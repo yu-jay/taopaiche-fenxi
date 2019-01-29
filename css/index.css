@@ -58,3 +58,7 @@
 	border-top:1px solid #c3bdbd;
 	border-bottom:1px solid #c3bdbd;
 }
+
+.t_body input{
+	width: 300px;
+}
