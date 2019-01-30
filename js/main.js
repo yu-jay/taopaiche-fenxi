@@ -8,6 +8,38 @@
 	var imgLeft = 0;
 	var lev = 1;  //放缩系数
 	
+	var recogResult = {};  //识别结果
+	
+	var currentItemIndex = 0;   //当前显示的识别结果
+	
+	var dangerVehicle = {
+		1: '是　',
+		'-1': '未知'
+	};
+	
+	var driverFlag = {
+		1: '是　　　',
+		'-1': '未知　　'
+	};
+	
+	var belt = {
+		0: '未系　　',
+		1: '已系　　',
+		'-1': '未知　　'
+	};
+	
+	var callIphone = {
+		0: '未打电话',
+		1: '打电话　',
+		'-1': '未知　　'
+	};
+	
+	var sunVisor = {
+		0: '未打开　',
+		1: '打开　　',
+		'-1': '未知　　'
+	};
+	
 	$("#headPicDiv").css({
 		height: $config.height
 	});
@@ -23,7 +55,71 @@
 	
 	handleInput();
 	
+	function createItem(list){
+		var arr = [];
+		recogResult = {};
+		for(var i=0; i<list.length; i++){
+			var div = $("<div index='" + (i + 1) + "'>结果" + (i + 1) + "</div>");
+			if(i == 0){
+				div = $("<div class='on' index='" + (i + 1) + "'>结果" + (i + 1) + "</div>");
+			}
+			arr.push(div);
+			recogResult['index_' + (i + 1)] = list[i];
+			div.click(function(){
+				var index = $(this).attr('index');
+				selectItemByIndex(index);
+			});
+		}
+		$("#t_header").empty().append(arr);
+		
+		var di = $("<div></div>");
+		di.css({
+			width: 445 - list.length*80,
+			borderBottom: '1px solid #c3bdbd',
+			borderTop: '0px solid #c3bdbd',
+			height: '37px'
+		});
+		$("#t_header").append(di);
+		
+		selectItemByIndex(1);
+		currentItemIndex = 1;
+	}
 	
+	function selectItemByIndex(index){
+		//console.log('check: ' + (index != currentItemIndex));
+		if(index != currentItemIndex){
+			var d_0 = recogResult['index_' + index];
+			addVehicleDetails(d_0);
+			
+			var _d_0 = d_0.vehicleBox;
+			drawRect(_d_0.x, _d_0.y, _d_0.w, _d_0.h);
+			
+			$("#t_header").children('div[index=' + index + ']').addClass('on')
+			.siblings('div').removeClass('on');
+			
+			currentItemIndex = index;
+		}
+	}
+	
+	function addVehicleDetails(data){
+		//console.log(data);
+		if(data){
+			$("#vehicleBrand").val(data.recogBrand.brandFullName);
+			$("#vehicleColor").val(data.colorName);
+			$("#vehicleType").val(data.typeName);
+			$("#vehiclePlate").val(data.plateNo);
+			$("#plateColor").val(data.plateColorName);
+			$("#dangerVehicleFlag").val(getCodeName(dangerVehicle, data.DMD));
+			$("#vehicleVriver").val("主：" + getCodeName(driverFlag, data.mainDriverFlag) 
+					+ "　　　副：" + getCodeName(driverFlag, data.secondDriverFlag));
+			$("#lifeBelt").val("主：" + getCodeName(belt, data.mainDriverBeltFlag) 
+					+ "　　　副：" + getCodeName(belt, data.secondDriverBeltFlag));
+			$("#callPhone").val("主：" + getCodeName(callIphone, data.mainDriverPhoneFlag) 
+					+ "　　　副：" + getCodeName(callIphone, data.secondDriverPhoneFlag));
+			$("#sunVisor").val("主：" + getCodeName(sunVisor, data.mainSunVisorFlag)
+					+ "　　　副：" + getCodeName(sunVisor, data.secondSunVisorFlag));
+		}
+	}
 	
 	function changeImgSrc(objUrl){
 		if (objUrl) {
@@ -50,18 +146,34 @@
             		handleInput();
             	}
             	
-            	drawRect(100, 100, 100, 100);
+            	h_header_s(data);
+            	
                 console.log(data);
             }
 
         });
 	}
 	
-	h_header_s(4);
-	function h_header_s(size){
-		$(".t_header").css({
-			width: 80*size
-		});
+	function h_header_s(list){
+		$("#init").hide();
+		if($.isArray(list) && list.length > 0){
+			$("#haveResult").show();
+			var size = list.length;
+			if(size > 0){
+				$("#t_header").css({
+					//width: 80*size
+				});
+				createItem(list);
+			}
+		}else{
+			$("#noResult").show();
+		}
+	}
+	
+	function getCodeName(data, code){
+		if(data){
+			return data[code];
+		}
 	}
 	
 	//在图片上画框
