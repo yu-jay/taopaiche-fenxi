@@ -183,22 +183,19 @@
 				&& typeof w == 'number' 
 					&& typeof h == 'number'){
 			var span = $("<div></div>");
-			var top = x/lev;
-			var left = y/lev;
+			var top = imgTop + y/lev;
+			var left = imgLeft + x/lev;
 			var width = w/lev;
 			var height = h/lev;
-			if(imgTop != 0){
-				top = imgTop + x/lev;
-			}
-			if(imgLeft != 0){
-				left = imgLeft + y/lev;
-			}
-			console.log('x: ' + x);
-			console.log('y: ' + y);
-			console.log('toop: ' + top);
-			console.log('left: ' + left);
-			console.log('width: ' + width);
-			console.log('height: ' + height);
+			//console.log('imgTop: ' + imgTop);
+			//console.log('imgLeft: ' + imgLeft);
+			//console.log('lev: ' + lev);
+			//console.log('x: ' + x);
+			//console.log('y: ' + y);
+			//console.log('toop: ' + top);
+			//console.log('left: ' + left);
+			//console.log('width: ' + width);
+			//console.log('height: ' + height);
 			span.css({
 				position: 'absolute',
 				width: width,
@@ -219,10 +216,10 @@
 		var imgH = img[0].naturalHeight;
 		var divW = div.width();
 		var divH = div.height();
-		console.log('imgW: ' + imgW);
-		console.log('imgH: ' + imgH);
-		console.log('divW: ' + divW);
-		console.log('divH: ' + divH);
+		//console.log('imgW: ' + imgW);
+		//console.log('imgH: ' + imgH);
+		//console.log('divW: ' + divW);
+		//console.log('divH: ' + divH);
 		if(divW > imgW && divH > imgH){
 			imgTop = (divH - imgH)/2;
 			imgLeft = (divW - imgW)/2;
