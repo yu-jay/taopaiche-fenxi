@@ -102,22 +102,22 @@
 	}
 	
 	function addVehicleDetails(data){
-		//console.log(data);
+		console.log(data);
 		if(data){
-			$("#vehicleBrand").val(data.recogBrand.brandFullName);
-			$("#vehicleColor").val(data.colorName);
-			$("#vehicleType").val(data.typeName);
-			$("#vehiclePlate").val(data.plateNo);
-			$("#plateColor").val(data.plateColorName);
+			$("#vehicleBrand").val(data.recogBrand ? data.recogBrand.brandFullName : null);
+			$("#vehicleColor").val(data.colorName || null);
+			$("#vehicleType").val(data.typeName || null);
+			$("#vehiclePlate").val(data.plateNo || null);
+			$("#plateColor").val(data.plateColorName || null);
 			$("#dangerVehicleFlag").val(getCodeName(dangerVehicle, data.DMD));
-			$("#vehicleVriver").val("主：" + getCodeName(driverFlag, data.mainDriverFlag) 
-					+ "　　　副：" + getCodeName(driverFlag, data.secondDriverFlag));
-			$("#lifeBelt").val("主：" + getCodeName(belt, data.mainDriverBeltFlag) 
-					+ "　　　副：" + getCodeName(belt, data.secondDriverBeltFlag));
-			$("#callPhone").val("主：" + getCodeName(callIphone, data.mainDriverPhoneFlag) 
-					+ "　　　副：" + getCodeName(callIphone, data.secondDriverPhoneFlag));
-			$("#sunVisor").val("主：" + getCodeName(sunVisor, data.mainSunVisorFlag)
-					+ "　　　副：" + getCodeName(sunVisor, data.secondSunVisorFlag));
+			$("#vehicleVriver").val(getCodeName(driverFlag, data.mainDriverFlag) ? ("主：" + getCodeName(driverFlag, data.mainDriverFlag) 
+					+ "　　　副：" + getCodeName(driverFlag, data.secondDriverFlag)) : null);
+			$("#lifeBelt").val(getCodeName(belt, data.mainDriverBeltFlag) ? "主：" + getCodeName(belt, data.mainDriverBeltFlag) 
+					+ "　　　副：" + getCodeName(belt, data.secondDriverBeltFlag) : null);
+			$("#callPhone").val(getCodeName(callIphone, data.mainDriverPhoneFlag) ? "主：" + getCodeName(callIphone, data.mainDriverPhoneFlag) 
+					+ "　　　副：" + getCodeName(callIphone, data.secondDriverPhoneFlag) : null);
+			$("#sunVisor").val(getCodeName(sunVisor, data.mainSunVisorFlag) ? "主：" + getCodeName(sunVisor, data.mainSunVisorFlag)
+					+ "　　　副：" + getCodeName(sunVisor, data.secondSunVisorFlag) : null);
 		}
 	}
 	
@@ -131,6 +131,13 @@
             }, 500);
             
         }
+	}
+	
+	//初始化
+	function init_d(){
+		currentItemIndex = 0;
+		addVehicleDetails({});
+		clearAllDiv();
 	}
 	
 	function upload(){
@@ -204,11 +211,15 @@
 				top: top,
 				left: left
 			});
-			$("#headPicDiv").children('div').remove();
+			clearAllDiv();
 			$("#headPicDiv").append(span);
 		}else{
 			console.warn('非数字');
 		}
+	}
+	
+	function clearAllDiv(){
+		$("#headPicDiv").children('div').remove();
 	}
 	
 	function setImg(img, div){
@@ -237,6 +248,7 @@
 			img.css({
 				width: imgW
 			});
+			img.css('height', '');
 			setPosition(img, imgTop, imgLeft, 'height');
 		}
 		if(divW < imgW && divH > imgH){
@@ -246,6 +258,7 @@
 			img.css({
 				height: imgH
 			});
+			img.css('width', '');
 			setPosition(img, imgTop, imgLeft, 'width');
 		}
 		if(divW < imgW && divH < imgH){
@@ -256,17 +269,21 @@
 				imgLeft = 0;
 				lev = w_l;
 				img.css({
-					width: divW, 
+					width: divW,
+					marginLeft: imgLeft,
 					marginTop: imgTop
 				});
+				img.css('height', '');
 			}else{
 				imgTop = 0;
 				lev = h_l;
 				imgLeft = (divW - imgW/h_l)/2;
 				img.css({
 					height: divH,
-					marginLeft: imgLeft
+					marginLeft: imgLeft,
+					marginTop: imgTop
 				});
+				img.css('width', '');
 			}
 		}
 		
@@ -293,10 +310,13 @@
 	}
 	
 	function handleInput(){
+		
 		inputId = createId();
 		var input = createInput(inputId);
 		$("#ip_div").empty().append(input);
 		input.on('change', function(){
+			console.log('init');
+			init_d();
 			objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
 	        changeImgSrc(objUrl);
 		});
